@@ -51,7 +51,13 @@ public class QueryUtils {
                 String date = currentNews.getString("webPublicationDate");
                 String url = currentNews.getString("webUrl");
 
-                News news = new News(title, section, date, url);
+                JSONArray tagsArray = currentNews.getJSONArray("tags");
+
+                JSONObject firstTag = (JSONObject) tagsArray.get(0);
+
+                String author = firstTag.getString("webTitle");
+
+                News news = new News(title, section, author, date, url);
 
                 newsList.add(news);
             }
