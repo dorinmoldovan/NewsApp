@@ -15,8 +15,6 @@ import java.util.Date;
 
 public class NewsAdapter extends ArrayAdapter<News> {
 
-    private static final String LOG_TAG = NewsAdapter.class.getSimpleName();
-
     public NewsAdapter(Activity context, ArrayList<News> newsList) {
         super(context, 0, newsList);
     }
@@ -36,6 +34,9 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         TextView newsSectionTextView = (TextView) listItemView.findViewById(R.id.news_section);
         newsSectionTextView.setText(news.getSection());
+
+        TextView authorSectionTextView = (TextView) listItemView.findViewById(R.id.news_author);
+        authorSectionTextView.setText(news.getAuthor());
 
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
 
