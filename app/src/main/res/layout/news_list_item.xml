@@ -9,10 +9,19 @@
     android:paddingStart="@dimen/padding"
     android:background="@color/colorSecondaryVariant">
 
+    <ImageView
+        android:id="@+id/news_image"
+        android:layout_width="@dimen/imageSize"
+        android:layout_height="@dimen/imageSize"
+        android:layout_gravity="center_vertical"
+        android:gravity="center" />
+
     <LinearLayout
         android:layout_width="@dimen/width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginStart="@dimen/margin"
         android:layout_weight="1"
         android:orientation="vertical">
 

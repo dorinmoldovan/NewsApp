@@ -21,6 +21,7 @@ import java.util.List;
 public class QueryUtils {
 
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    public static final String DEFAULT_AUTHOR_VALUE = "Unspecified Author";
 
     private QueryUtils() {
 
@@ -51,13 +52,23 @@ public class QueryUtils {
                 String date = currentNews.getString("webPublicationDate");
                 String url = currentNews.getString("webUrl");
 
+                JSONObject fieldsJSON = currentNews.getJSONObject("fields");
+
+                String thumbnail = fieldsJSON.getString("thumbnail");
+
                 JSONArray tagsArray = currentNews.getJSONArray("tags");
 
-                JSONObject firstTag = (JSONObject) tagsArray.get(0);
+                String author = DEFAULT_AUTHOR_VALUE;
 
-                String author = firstTag.getString("webTitle");
+                if(tagsArray.length() != 0) {
 
-                News news = new News(title, section, author, date, url);
+                    JSONObject firstTag = (JSONObject) tagsArray.get(0);
+
+                    author = firstTag.getString("webTitle");
+
+                }
+
+                News news = new News(title, section, author, date, thumbnail, url);
 
                 newsList.add(news);
             }
