@@ -4,4 +4,5 @@
     <dimen name="width">0dp</dimen>
     <dimen name="titleTextSize">16sp</dimen>
     <dimen name="detailsTextSize">12sp</dimen>
+    <dimen name="imageSize">48dp</dimen>
 </resources>

@@ -1,13 +1,21 @@
 package com.androidbasicsnd.android.newsapp;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +46,10 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView authorSectionTextView = (TextView) listItemView.findViewById(R.id.news_author);
         authorSectionTextView.setText(news.getAuthor());
 
+        ImageView newsImgageView = (ImageView) listItemView.findViewById(R.id.news_image);
+
+        new ImageTask(newsImgageView).execute(news.getThumbnail());
+
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
@@ -64,6 +76,33 @@ public class NewsAdapter extends ArrayAdapter<News> {
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
         return timeFormat.format(dateObject);
+    }
+
+    private class ImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        ImageView imageView;
+
+        public ImageTask(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String imageURL = urls[0];
+            Bitmap imageBitmamp = null;
+            try {
+                InputStream in = new java.net.URL(imageURL).openStream();
+                imageBitmamp = BitmapFactory.decodeStream(in);
+            } catch (MalformedURLException e) {
+                Log.e("NewsAdapter", "MalformedURLException", e);
+            } catch (IOException e) {
+                Log.e("NewsAdapter", "IOException", e);
+            }
+            return imageBitmamp;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
     }
 
 }
