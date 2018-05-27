@@ -30,7 +30,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
 
-        if(listItemView == null) {
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.news_list_item, parent, false);
         }
@@ -48,7 +48,11 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         ImageView newsImgageView = (ImageView) listItemView.findViewById(R.id.news_image);
 
-        new ImageTask(newsImgageView).execute(news.getThumbnail());
+        if(news.getThumbnail().equals(QueryUtils.DEFAULT_THUMBNAIL_VALUE)) {
+            newsImgageView.setImageResource(R.drawable.baseline_note_black_48);
+        } else {
+            new ImageTask(newsImgageView).execute(news.getThumbnail());
+        }
 
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
 
@@ -89,6 +93,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         protected Bitmap doInBackground(String... urls) {
             String imageURL = urls[0];
             Bitmap imageBitmamp = null;
+
             try {
                 InputStream in = new java.net.URL(imageURL).openStream();
                 imageBitmamp = BitmapFactory.decodeStream(in);
@@ -97,6 +102,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
             } catch (IOException e) {
                 Log.e("NewsAdapter", "IOException", e);
             }
+
             return imageBitmamp;
         }
 

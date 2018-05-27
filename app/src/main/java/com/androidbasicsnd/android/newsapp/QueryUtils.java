@@ -22,6 +22,7 @@ public class QueryUtils {
 
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
     public static final String DEFAULT_AUTHOR_VALUE = "Unspecified Author";
+    public static final String DEFAULT_THUMBNAIL_VALUE = "None";
 
     private QueryUtils() {
 
@@ -52,9 +53,12 @@ public class QueryUtils {
                 String date = currentNews.getString("webPublicationDate");
                 String url = currentNews.getString("webUrl");
 
-                JSONObject fieldsJSON = currentNews.getJSONObject("fields");
+                String thumbnail = DEFAULT_THUMBNAIL_VALUE;
 
-                String thumbnail = fieldsJSON.getString("thumbnail");
+                if(currentNews.has("fields")) {
+                    JSONObject fieldsJSON = currentNews.getJSONObject("fields");
+                    thumbnail = fieldsJSON.getString("thumbnail");
+                }
 
                 JSONArray tagsArray = currentNews.getJSONArray("tags");
 
